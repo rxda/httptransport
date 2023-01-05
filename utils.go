@@ -2,6 +2,8 @@ package httptransport
 
 import (
 	"fmt"
+	"net/http"
+	"strings"
 )
 
 func TryCatch(fn func()) (err error) {
@@ -13,4 +15,13 @@ func TryCatch(fn func()) (err error) {
 
 	fn()
 	return nil
+}
+
+func isLegitimateHTTPMethod(m string) bool {
+	m = strings.ToUpper(m)
+	switch m {
+	case http.MethodPut, http.MethodPatch, http.MethodDelete:
+		return true
+	}
+	return false
 }
